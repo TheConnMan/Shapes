@@ -2,6 +2,8 @@
 <html>
     <head>
         <title>TheConnMan - Shapes</title>
+		<link href="./src/shapes.css" type="text/css" rel="stylesheet" />
+		<link href="//fonts.googleapis.com/css?family=Lato:100italic,100,300italic,300,400italic,400,700italic,700,900italic,900" rel="stylesheet" type="text/css">
         <script src="https://code.jquery.com/jquery-2.1.1.min.js" charset="utf-8"></script>
         <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
         <script src="./src/shapes.js" charset="utf-8"></script>
@@ -15,11 +17,33 @@
 			ga('send', 'pageview');
 		</script>
 		<style>
-			body {
-				margin: 0px;
-			}
+			
 		</style>
     </head>
     <body>
+    	<div class="inputs">
+    		<h1>Shapes</h1>
+    		<p>
+    			Some soothing, floating shapes
+    		</p>
+    		<div>
+    			<input id="count" class="attribute" type="number" value="100" /><span class="label">Shapes</span>
+    		</div>
+    		<div>
+    			<input id="spines" class="attribute" type="number" value="10" /><span class="label">Spines</span>
+    		</div>
+    		<div>
+    			<input id="radius" class="attribute" type="number" value="10" /><span class="label">Radius</span>
+    		</div>
+    		<div>
+    			<input id="spineSize" class="attribute" type="number" value="5" /><span class="label">Spine Size</span>
+    		</div>
+    		<div>
+    			<input id="velocity" class="attribute" type="number" value="10" /><span class="label">Velocity</span>
+    		</div>
+    		<div>
+    			<input id="rotation" class="attribute" type="number" value="10" /><span class="label">Rotation</span>
+    		</div>
+    	</div>
     </body>
 </html>

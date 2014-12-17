@@ -5,8 +5,8 @@ var defaultPhysics = {
 	y: function(d, w, h) { return d.y; },
 	rx: function(d, w, h) { return (Math.PI - d.angle) % (2 * Math.PI); },
 	ry: function(d, w, h) { return 2 * Math.PI - d.angle; },
-	xx: function(d, v, r) { return v / 10 * Math.cos(d.angle); },
-	yy: function(d, v, r) { return v / 10 * Math.sin(d.angle); }
+	xx: function(d, v, r) { return v / 100 * Math.cos(d.angle); },
+	yy: function(d, v, r) { return v / 100 * Math.sin(d.angle); }
 }, ghostPhysics = {
 	dx: function(d, r) { return 0; },
 	dy: function(d, r) { return 0; },
@@ -18,27 +18,23 @@ var defaultPhysics = {
 	yy: function(d, v, r) { return v * Math.sin(d.angle); }
 };
 
+var svg, width, height, reset = false;
+
 $(function() {
-	start({
-		count: 100,
-		momentum: 20
-	});
+	width = window.innerWidth - 4;
+	height = window.innerHeight - 4;
+	svg = d3.select('body').append('svg').attr('width', width).attr('height', height);
+	start();
+	$('.attribute').change(function() {
+		reset = true;
+	})
 })
 
-var defaults = {
-	count: 10,
-	radius: 10,
-	spines: 10,
-	spineSize: 5,
-	velocity: 1,
-	rotation: 10
-};
-
-function start(options) {
-	var opts = $.extend({}, defaults, options);
-	var width = window.innerWidth - 4;
-	var height = window.innerHeight - 4;
-	var svg = d3.select('body').append('svg').attr('width', width).attr('height', height);
+function start() {
+	var opts = {};
+	$('.attribute').toArray().forEach(function(d) {
+		opts[$(d).attr('id')] = parseInt($(d).val());
+	});
 	var colors = d3.scale.category10();
 	var shapes = d3.range(opts.count).map(function(d) {
 		var radius = opts.radius;
@@ -56,6 +52,7 @@ function start(options) {
 			rotated: 0
 		}
 	});
+	svg.selectAll('.shape').data([]).exit().remove();
 	var svgShapes = svg.selectAll('.shape').data(shapes).enter()
 		.append('g').attr('class', 'shape')
 		.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; })
@@ -75,18 +72,23 @@ function start(options) {
 		});
 	});
 	
-	var start;
+	var startTime;
 	
 	function step(timestamp) {
-		if (!start) {
-			start = timestamp;
+		if (!startTime) {
+			startTime = timestamp;
 		}
-		var progress = timestamp - start;
+		var progress = timestamp - startTime;
 		
 		refresh(progress);
 		
-		start = timestamp;
-		requestAnimationFrame(step)
+		startTime = timestamp;
+		if (!reset) {
+			requestAnimationFrame(step)
+		} else {
+			reset = false;
+			start();
+		}
 	}
 	
 	function refresh(progress) {

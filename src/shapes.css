@@ -1,0 +1,32 @@
+body {
+	margin: 0px;
+	font-family: Lato;
+	color: #333;
+}
+
+h1 {
+	font-weight: 300;
+	margin: 0 10px 0 0;
+}
+
+.inputs {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	width: 200px;
+	height: 250px;
+	opacity: 0;
+	background-color: rgba(70, 130, 180, 0.4);
+	border-radius: 10px;
+	padding: 10px;
+	-webkit-transition: opacity .5s;
+}
+
+.inputs:hover {
+	opacity: 1;
+}
+
+.inputs input {
+	width: 50px;
+	margin-right: 10px;
+}

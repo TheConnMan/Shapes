@@ -6,7 +6,7 @@ var defaults = {
 	count: 10,
 	radius: 10,
 	spines: 10,
-	spineSize: 3,
+	spineSize: 5,
 	velocity: 10
 };
 
@@ -31,9 +31,21 @@ function start(options) {
 		}
 	});
 	var svgShapes = svg.selectAll('.shape').data(shapes).enter()
-		.append('circle').attr('class', 'shape')
+		.append('g').attr('class', 'shape')
 		.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; })
+		.style('stroke', function(d) { return d.color; });
+	svgShapes.append('circle')
 		.attr('r', function(d) { return d.radius; })
-		.style('fill', 'none')
-		.style('stroke', function(d) { return d.color; })
+		.style('fill', 'none');
+	svgShapes[0].forEach(function(d) {
+		var data = d3.select(d).data()[0];
+		d3.range(data.spines).forEach(function(s) {
+			var angle = 2 * Math.PI * s / data.spines;
+			d3.select(d).append('line')
+				.attr('x1', Math.cos(angle) * data.radius)
+				.attr('x2', Math.cos(angle) * (data.radius + data.spineSize))
+				.attr('y1', Math.sin(angle) * data.radius)
+				.attr('y2', Math.sin(angle) * (data.radius + data.spineSize));
+		});
+	})
 }

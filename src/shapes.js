@@ -14,8 +14,8 @@ var defaultPhysics = {
 	y: function(d, w, h) { return (d.y + h) % h; },
 	rx: function(d, w, h) { return d.angle; },
 	ry: function(d, w, h) { return d.angle; },
-	xx: function(d, v, r) { return v * Math.cos(d.angle); },
-	yy: function(d, v, r) { return v * Math.sin(d.angle); }
+	xx: function(d, v, r) { return v / 100 * Math.cos(d.angle); },
+	yy: function(d, v, r) { return v / 100 * Math.sin(d.angle); }
 };
 
 var svg, width, height, reset = false;
@@ -35,6 +35,7 @@ function start() {
 	$('.attribute').toArray().forEach(function(d) {
 		opts[$(d).attr('id')] = parseInt($(d).val());
 	});
+	var physics = $('#ghostPhysics').is(':checked') ? ghostPhysics : defaultPhysics;
 	var colors = d3.scale.category10();
 	var shapes = d3.range(opts.count).map(function(d) {
 		var radius = opts.radius;
@@ -95,7 +96,6 @@ function start() {
 		shapes.forEach(function(d) {
 			var r = d.radius + d.spineSize;
 			var v = d.velocity;
-			var physics = defaultPhysics;
 			if ((d.y >= innerHeight - physics.dy(d, r) && Math.sin(d.angle) > 0) || (d.y <= physics.dy(d, r) && Math.sin(d.angle) < 0)) {
 				d.y = physics.y(d, innerWidth, innerHeight);
 				d.angle = physics.ry(d, innerWidth, innerHeight);

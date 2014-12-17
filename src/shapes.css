@@ -14,7 +14,7 @@ h1 {
 	top: 5px;
 	right: 5px;
 	width: 200px;
-	height: 250px;
+	height: 270px;
 	opacity: 0;
 	background-color: rgba(70, 130, 180, 0.4);
 	border-radius: 10px;
@@ -26,7 +26,7 @@ h1 {
 	opacity: 1;
 }
 
-.inputs input {
+.inputs input.text {
 	width: 50px;
 	margin-right: 10px;
 }

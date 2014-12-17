@@ -30,7 +30,8 @@ var defaults = {
 	radius: 10,
 	spines: 10,
 	spineSize: 5,
-	velocity: 1
+	velocity: 1,
+	rotation: 10
 };
 
 function start(options) {
@@ -50,7 +51,9 @@ function start(options) {
 			x: Math.random() * (width - 2 * (radius + spineSize)) + radius + spineSize,
 			y: Math.random() * (height - 2 * (radius + spineSize)) + radius + spineSize,
 			velocity: opts.velocity,
-			angle: 2 * Math.PI * Math.random()
+			angle: 2 * Math.PI * Math.random(),
+			rotation: opts.rotation,
+			rotated: 0
 		}
 	});
 	var svgShapes = svg.selectAll('.shape').data(shapes).enter()
@@ -101,8 +104,9 @@ function start(options) {
 			}
 			d.x += physics.xx(d, v, r) * progress;
 			d.y += physics.yy(d, v, r) * progress;
+			d.rotated += d.rotation * progress / 100;
 		});
-		svgShapes.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
+		svgShapes.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')rotate(' + d.rotated + ')'; });
 	}
 	
 	requestAnimationFrame(step);
